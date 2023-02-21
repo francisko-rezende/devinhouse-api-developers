@@ -1,5 +1,5 @@
 import { CreateCountryDto } from 'src/core/dtos';
-import { CountryEntity } from 'src/core/entities';
+import { CityEntity, CountryEntity } from 'src/core/entities';
 
 export class TestStatic {
   static countryData(): CountryEntity {
@@ -36,5 +36,14 @@ export class TestStatic {
     });
 
     return countries;
+  }
+
+  static cityData(): CityEntity {
+    const city = new CityEntity();
+    city.id = 1;
+    city.name = 'Tagamandápio';
+    city.state_id = 1;
+
+    return city;
   }
 }
