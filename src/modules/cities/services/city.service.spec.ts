@@ -75,7 +75,7 @@ describe('cityService', () => {
       const city = TestStatic.cityData();
       const cityDto = TestStatic.countryDto();
 
-      mockCityRespository.getById.mockReturnValue(city);
+      mockCityRespository.getByName.mockReturnValue(city);
 
       expect(cityService.createCity(cityDto)).rejects.toBeInstanceOf(
         BadRequestException,

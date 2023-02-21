@@ -14,7 +14,7 @@ import { City } from '../interfaces';
 import { ApiTags } from '@nestjs/swagger';
 import { CityEntity } from '../entities/city.entity';
 import { CreateCityDto } from '../dto/create-city.dto';
-import { UpdateCityDto } from '../dto/update-city.dti';
+import { UpdateCityDto } from '../dto/update-city.dto';
 
 @ApiTags('cities')
 @Controller('city')

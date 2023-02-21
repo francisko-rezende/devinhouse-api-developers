@@ -9,6 +9,7 @@ describe('Cities controller', () => {
   const mockCityService = {
     findById: jest.fn(),
     createCity: jest.fn(),
+    updateCity: jest.fn(),
   };
 
   const mockStateService = {
@@ -53,6 +54,21 @@ describe('Cities controller', () => {
       const createdCity = await cityController.createCity(cityDto);
 
       expect(createdCity).toMatchObject({ id: 1, name: 'Tagamandápio' });
+    });
+  });
+
+  describe('updateCity', () => {
+    it('should update a city', async () => {
+      const city = TestStatic.cityData();
+      const updateCityDto = TestStatic.updateCityDto();
+      mockCityService.updateCity.mockReturnValue(city);
+
+      const cityToUpdateId = 1;
+      const updatedCity = await cityController.updateCity(
+        cityToUpdateId,
+        updateCityDto,
+      );
+      expect(updatedCity).toMatchObject({ id: 1, name: 'Tagamandápio' });
     });
   });
 });

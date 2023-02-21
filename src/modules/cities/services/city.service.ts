@@ -1,4 +1,4 @@
-import { UpdateCityDto } from './../dto/update-city.dti';
+import { UpdateCityDto } from './../dto/update-city.dto';
 import { StateRepository } from './../../states/state.repository';
 import {
   BadRequestException,
