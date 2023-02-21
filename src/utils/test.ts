@@ -1,6 +1,6 @@
 import { CreateCityDto } from './../modules/cities/dto/create-city.dto';
 import { CreateCountryDto } from 'src/core/dtos';
-import { CityEntity, CountryEntity } from 'src/core/entities';
+import { CityEntity, CountryEntity, StateEntity } from 'src/core/entities';
 
 export class TestStatic {
   static countryData(): CountryEntity {
@@ -37,6 +37,15 @@ export class TestStatic {
     });
 
     return countries;
+  }
+
+  static stateData(): StateEntity {
+    const state = new StateEntity();
+    state.name = 'Minas Gerais';
+    state.initials = 'MG';
+    state.country_id = 1;
+
+    return state;
   }
 
   static cityData(): CityEntity {

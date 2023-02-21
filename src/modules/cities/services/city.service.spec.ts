@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { StateRepository } from './../../states/state.repository';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CityRepository } from './../city.repository';
@@ -10,6 +10,9 @@ describe('cityService', () => {
 
   const mockCityRespository = {
     getById: jest.fn(),
+    getByName: jest.fn(),
+    getByStateId: jest.fn(),
+    createCity: jest.fn(),
   };
 
   const mockStateRepository = {
@@ -49,6 +52,45 @@ describe('cityService', () => {
       mockCityRespository.getById.mockReturnValue(null);
       expect(cityService.findById(1)).rejects.toBeInstanceOf(NotFoundException);
       expect(mockCityRespository.getById).toBeCalledTimes(1);
+    });
+  });
+
+  describe('createCity', () => {
+    it('creates a new city', async () => {
+      const city = TestStatic.cityData();
+      const cityDto = TestStatic.createCityDto();
+      const state = TestStatic.stateData();
+
+      mockCityRespository.createCity.mockReturnValue(city);
+      mockCityRespository.getById.mockReturnValue(null);
+      mockCityRespository.getByStateId.mockReturnValue(null);
+      mockStateRepository.findOne.mockReturnValue(state);
+
+      const createdCity = await cityService.createCity(cityDto);
+      expect(createdCity).toMatchObject({ id: 1, name: 'Tagamandápio' });
+      expect(mockCityRespository.createCity).toBeCalledTimes(1);
+    });
+
+    it('throws a bad request exception when city id is being used', async () => {
+      const city = TestStatic.cityData();
+      const cityDto = TestStatic.countryDto();
+
+      mockCityRespository.getById.mockReturnValue(city);
+
+      expect(cityService.createCity(cityDto)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    });
+
+    it('throws a bad request exception when city by state is found', async () => {
+      const city = TestStatic.cityData();
+      const cityDto = TestStatic.createCityDto();
+
+      mockCityRespository.getByStateId.mockReturnValue(city);
+
+      expect(cityService.createCity(cityDto)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
     });
   });
 });
