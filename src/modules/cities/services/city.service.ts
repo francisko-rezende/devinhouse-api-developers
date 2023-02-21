@@ -47,16 +47,16 @@ export class CityService {
   async deleteCity(id: number): Promise<string> {
     return new Promise(async (resolve, reject) => {
       try {
-        const cityToDelete = await this.findById(id);
+        const cityToDelete = await this.cityRepository.getById(id);
 
         if (!cityToDelete) {
-          throw new NotFoundException('');
+          throw new NotFoundException('cityNotFound');
         }
 
         const deletedCity = await this.cityRepository.deleteCity(cityToDelete);
 
         if (!deletedCity) {
-          throw new NotFoundException('CityNotDeleted');
+          throw new BadRequestException('CityNotDeleted');
         }
 
         resolve('Cidade apagada com sucesso');

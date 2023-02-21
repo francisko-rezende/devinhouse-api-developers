@@ -14,6 +14,8 @@ describe('cityService', () => {
     getByStateId: jest.fn(),
     createCity: jest.fn(),
     updateCity: jest.fn(),
+    // findById: jest.fn(),
+    deleteCity: jest.fn(),
   };
 
   const mockStateRepository = {
@@ -129,6 +131,42 @@ describe('cityService', () => {
       expect(
         cityService.updateCity(cityToUpdateId, cityDto),
       ).rejects.toBeInstanceOf(BadRequestException);
+    });
+  });
+
+  describe('deleteCity', () => {
+    it('should resolve to "Cidade apagada com sucesso" when it works', async () => {
+      const cityToDelete = TestStatic.cityData();
+      mockCityRespository.getById.mockReturnValue(cityToDelete);
+      mockCityRespository.deleteCity.mockReturnValue(true);
+
+      const cityToDeleteId = 1;
+
+      expect(cityService.deleteCity(cityToDeleteId)).resolves.toBe(
+        'Cidade apagada com sucesso',
+      );
+    });
+
+    it('should throw a not found exception when the city to be deleted is not found', async () => {
+      mockCityRespository.getById.mockReturnValue(null);
+
+      const cityToDeleteId = 1;
+
+      expect(cityService.deleteCity(cityToDeleteId)).rejects.toBeInstanceOf(
+        NotFoundException,
+      );
+    });
+
+    it('should throw a bad request exception when city is not deleted successfully', async () => {
+      const city = TestStatic.cityData();
+      mockCityRespository.getById.mockReturnValue(city);
+      mockCityRespository.deleteCity.mockReturnValue(null);
+
+      const cityToDeleteId = 1;
+
+      expect(cityService.deleteCity(cityToDeleteId)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
     });
   });
 });
