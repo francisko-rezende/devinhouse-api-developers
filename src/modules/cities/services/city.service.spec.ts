@@ -13,6 +13,7 @@ describe('cityService', () => {
     getByName: jest.fn(),
     getByStateId: jest.fn(),
     createCity: jest.fn(),
+    updateCity: jest.fn(),
   };
 
   const mockStateRepository = {
@@ -91,6 +92,43 @@ describe('cityService', () => {
       expect(cityService.createCity(cityDto)).rejects.toBeInstanceOf(
         BadRequestException,
       );
+    });
+  });
+
+  describe('updateCity', () => {
+    it('it updates a city', async () => {
+      const city = TestStatic.cityData();
+      const cityDto = TestStatic.updateCityDto();
+      mockCityRespository.updateCity.mockReturnValue(city);
+      mockCityRespository.getById.mockReturnValue(city);
+
+      const cityToUpdateId = 1;
+      const updatedCity = await cityService.updateCity(cityToUpdateId, cityDto);
+      expect(updatedCity).toMatchObject({ id: 1, name: 'Tagamandápio' });
+    });
+
+    it('it throws a not found exception when city to update is not found', async () => {
+      const cityDto = TestStatic.updateCityDto();
+      mockCityRespository.getById.mockReturnValue(null);
+
+      const cityToUpdateId = 1;
+      expect(
+        cityService.updateCity(cityToUpdateId, cityDto),
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    it('it throws a bad request exception when city is not saved', async () => {
+      const city = TestStatic.cityData();
+      const cityDto = TestStatic.updateCityDto();
+      mockCityRespository.updateCity.mockRejectedValue(
+        new Error('Erro mockado'),
+      );
+      mockCityRespository.getById.mockReturnValue(city);
+
+      const cityToUpdateId = 1;
+      expect(
+        cityService.updateCity(cityToUpdateId, cityDto),
+      ).rejects.toBeInstanceOf(BadRequestException);
     });
   });
 });
