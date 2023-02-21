@@ -17,11 +17,34 @@ export class CityRepository extends Repository<CityEntity> {
     return this.find();
   }
 
-  async createCity(newCity: CreateCityDto): Promise<void> {
+  async createCity(newCity: CreateCityDto): Promise<CityEntity> {
     const city = new CityEntity();
     city.state_id = newCity.state_id;
     city.name = newCity.name;
 
-    await this.save(city);
+    return await this.save(city);
+  }
+
+  async updateCity(city: CityEntity): Promise<CityEntity> {
+    const updatedCity = await this.save(city);
+    return await this.save(updatedCity);
+  }
+
+  async deleteCity(cityToDelete: CityEntity): Promise<boolean> {
+    const deletedCity = await this.delete(cityToDelete);
+
+    return deletedCity ? true : false;
+  }
+
+  async getByName(searchedName: string): Promise<CityEntity> {
+    const searchedCity = this.findOne({ where: { name: searchedName } });
+
+    return searchedCity;
+  }
+
+  async getByStateId(searchedStateId: number): Promise<CityEntity> {
+    const searchedCity = this.findOne({ where: { state_id: searchedStateId } });
+
+    return searchedCity;
   }
 }

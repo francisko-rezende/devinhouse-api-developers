@@ -7,7 +7,9 @@ const messages = {
   FieldMustBeNumber: 'O valor enviado não é um number',
   entityWithArgumentsExists: 'Já existe uma entidade com os atributos enviados',
   countryNotUpdate: 'Não foi possível atualizar o país',
+  cityNotUpdate: 'Não foi possível atualizar a cidade',
   FieldMustNotBeEmpty: 'O campo enviado não pode ser vazio',
+  stateNotFound: 'Estado não encontrado',
 };
 
 export interface responseHttpProps {
