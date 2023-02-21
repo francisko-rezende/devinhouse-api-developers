@@ -20,7 +20,6 @@ describe('Cities controller', () => {
       providers: [
         CityService,
         { provide: CityService, useValue: mockCityService },
-        StateService,
         { provide: StateService, useValue: mockStateService },
       ],
     }).compile();
