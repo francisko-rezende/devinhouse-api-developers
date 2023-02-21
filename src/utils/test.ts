@@ -1,3 +1,4 @@
+import { CreateCityDto } from './../modules/cities/dto/create-city.dto';
 import { CreateCountryDto } from 'src/core/dtos';
 import { CityEntity, CountryEntity } from 'src/core/entities';
 
@@ -43,7 +44,18 @@ export class TestStatic {
     city.id = 1;
     city.name = 'Tagamandápio';
     city.state_id = 1;
+    city.createdAt = new Date();
+    city.updatedAt = new Date();
+    city.deletedAt = null;
 
     return city;
+  }
+
+  static createCityDto(): CreateCityDto {
+    const cityDto = new CreateCityDto();
+    cityDto.name = 'Tagamandápio';
+    cityDto.state_id = 1;
+
+    return cityDto;
   }
 }
