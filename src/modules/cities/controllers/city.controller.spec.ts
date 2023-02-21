@@ -10,6 +10,7 @@ describe('Cities controller', () => {
     findById: jest.fn(),
     createCity: jest.fn(),
     updateCity: jest.fn(),
+    deleteCity: jest.fn(),
   };
 
   const mockStateService = {
@@ -69,6 +70,17 @@ describe('Cities controller', () => {
         updateCityDto,
       );
       expect(updatedCity).toMatchObject({ id: 1, name: 'Tagamandápio' });
+    });
+  });
+
+  describe('deleteCityById', () => {
+    it('should display the message "Cidade deletada com sucesso"', async () => {
+      mockCityService.deleteCity.mockReturnValue('Cidade deletada com sucesso');
+      const cityToDeleteId = 1;
+      const deletedMessage = await cityController.deleteCityById(
+        cityToDeleteId,
+      );
+      expect(deletedMessage).toBe('Cidade deletada com sucesso');
     });
   });
 });
